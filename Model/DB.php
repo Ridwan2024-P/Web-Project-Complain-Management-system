@@ -22,4 +22,13 @@ class DatabaseConnection {
                 AND role='$role'";
         return $conn->query($sql);
     }
+      function getAllComplaints($conn) {
+        $sql = "SELECT * FROM complaints"; 
+        return $conn->query($sql);
+    }
+
+    function updateComplaintStatus($conn, $id, $status) {
+        $sql = "UPDATE complaints SET status='$status' WHERE id='$id'";
+        return $conn->query($sql);
+    }
 }

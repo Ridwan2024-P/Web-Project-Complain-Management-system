@@ -23,7 +23,7 @@ unset($_SESSION["errors"]);
                <input type="password" name="password" id="password" placeholder="enter your password" required>
                <span><?php echo $errors['password'] ?? ''; ?></span><br>
 
-<input type="radio" name="type" value="admin"> Admin
+
 <input type="radio" name="type" value="user"> User
 <span><?php echo $errors['type'] ?? ''; ?></span><br>
            

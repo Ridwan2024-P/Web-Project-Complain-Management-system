@@ -3,6 +3,10 @@ session_start();
 if (!($_SESSION["isLoggedIn"] ?? false)) {
     header("Location: login.php");
 }
+include "../../Model/DB.php";
+$db = new DatabaseConnection();
+$conn = $db->openConnection();
+$complaints = $db->getAllComplaints($conn);
 ?>
 
 <!DOCTYPE html>
@@ -82,18 +86,21 @@ th, td {
             <th>Action</th>
         </tr>
 
-        <tr>
-            <td>1</td>
-            <td>Ridwan</td>
-            <td>Internet Issue</td>
-            <td class="status-pending">Pending</td>
-            <td>
-                <button class="btn btn-approve">Approve</button>
-                <button class="btn btn-reject">Reject</button>
-                 <button class="btn btn-edit">Edit</button>
-            </td>
-        </tr>
-
+     <?php while($row = $complaints->fetch_assoc()): ?>
+    <tr>
+        <td><?= $row['id'] ?></td>
+        <td><?= $row['user_id'] ?></td>
+        <td><?= $row['title'] ?></td>
+        <td class="status-<?= $row['status'] ?>"><?= $row['status'] ?></td>
+        <td>
+            <form method="POST" action="../../Controller/ComplaintAction.php">
+                <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                <button type="submit" name="action" value="In Progress" class="btn-approve">In Progress</button>
+                <button type="submit" name="action" value="Solved" class="btn-reject">Solved</button>
+            </form>
+        </td>
+    </tr>
+    <?php endwhile; ?>
       
     </table>
     
