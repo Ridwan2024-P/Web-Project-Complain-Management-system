@@ -22,11 +22,22 @@ class DatabaseConnection {
                 AND role='$role'";
         return $conn->query($sql);
     }
+    function getAllUser($conn) {
+        $sql = "SELECT * FROM users"; 
+        return $conn->query($sql);
+    }
+    function deleteUser($conn, $id) {
+        $sql = "DELETE FROM users WHERE id='$id'";
+        return $conn->query($sql);
+    }
       function getAllComplaints($conn) {
         $sql = "SELECT * FROM complaints"; 
         return $conn->query($sql);
     }
-
+function updateUser($conn, $id, $name, $email, $role) {
+        $sql = "UPDATE users SET name='$name', email='$email', role='$role' WHERE id='$id'";
+        return $conn->query($sql);
+    }
     function updateComplaintStatus($conn, $id, $status) {
         $sql = "UPDATE complaints SET status='$status' WHERE id='$id'";
         return $conn->query($sql);

@@ -6,7 +6,7 @@ if (!($_SESSION["isLoggedIn"] ?? false)) {
 include "../../Model/DB.php";
 $db = new DatabaseConnection();
 $conn = $db->openConnection();
-$complaints = $db->getAllUser($conn);
+$complaints = $db->getAllComplaints($conn);
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +23,7 @@ $complaints = $db->getAllUser($conn);
     box-sizing:border-box;
     font-family: Arial, sans-serif;
 }
-
+/* Navbar */
 .navbar{
     background:#1e1e2f;
     color:white;
@@ -75,33 +75,29 @@ th, td {
         <a href="../../View/Admin/AssignComplaints.php">Assign Complaints</a>
         <a href="profile.html">Profile</a>
        
-      <a href="../../Controller/Logout.php" class="logoutbtn">Logout</a>
+       <a href="../../Controller/Logout.php" class="logoutbtn">Logout</a>
    </div>
     <table style="width: 100%;">
         <tr>
             <th>ID</th>
             <th>User</th>
-            <th>Email</th>
-            <th>Password</th>
-            <th>Role</th>
-            <th>Created_At</th>
+            <th>Complaint</th>
+            <th>Status</th>
             <th>Action</th>
         </tr>
 
      <?php while($row = $complaints->fetch_assoc()): ?>
     <tr>
         <td><?= $row['id'] ?></td>
-        <td><?= $row['name'] ?></td>
-        <td><?= $row['email'] ?></td>
-        <td><?= $row['password'] ?></td>
-        <td><?= $row['role'] ?></td>
-        <td><?= $row['created_at'] ?></td>
+        <td><?= $row['user_id'] ?></td>
+        <td><?= $row['title'] ?></td>
+        <td class="status-<?= $row['status'] ?>"><?= $row['status'] ?></td>
         <td>
-            <form method="POST" action="../../Controller/UserAction.php">
-            <input type="hidden" name="id" value="<?= $row['id'] ?>">
-            <button type="submit" name="action" value="Edit" class="btn-approve">Edit</button>
-            <button type="submit" name="action" value="Delete" class="btn-reject" onclick="return confirm('Are you sure?')">Delete</button>
-        </form>
+            <form method="POST" action="../../Controller/ComplaintAction.php">
+                <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                <button type="submit" name="action" value="In Progress" class="btn-approve">In Progress</button>
+                <button type="submit" name="action" value="Solved" class="btn-reject">Solved</button>
+            </form>
         </td>
     </tr>
     <?php endwhile; ?>
