@@ -1,31 +1,11 @@
-<?php
-session_start();
-if (!($_SESSION["isLoggedIn"] ?? false) || $_SESSION["role"] != 'user') {
-    header("Location: ../../View/login.php");
-    exit;
-}
-
-include "../../Model/DB.php";
-$db = new DatabaseConnection();
-$conn = $db->openConnection();
-
-// Fetch admin info using session email
-$email = $_SESSION['email'];
-$user = $db->getUserByEmail($conn, $email);
-
-$errors = $_SESSION['errors'] ?? [];
-$success = $_SESSION['success'] ?? '';
-unset($_SESSION['errors'], $_SESSION['success']);
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Profile</title>
+<title>User Profile</title>
 <style>
-*{
+ *{
     margin:0;
     padding:0;
     box-sizing:border-box;
@@ -71,6 +51,7 @@ th, td {
   
     cursor: pointer;
 }
+
 #profileForm{
     width:400px;
     margin:50px auto;
@@ -81,7 +62,7 @@ th, td {
 input{
     width:100%;
     padding:10px;
-    margin:10px 0;
+        margin:10px 0;
 }
 button{
     padding:10px 20px;
@@ -90,27 +71,32 @@ button{
     border:none;
     cursor:pointer;
 }
+
+
 </style>
 </head>
 <body>
 
 <div class="navbar">
-    <h5>Admin Dashboard</h5>
-     <a href="../../View/Admin/adminDashboard.php">Dashboard</a>
-        <a href="../../View/Admin/AssignComplaints.php">Assign Complaints</a>
-        <a href="../../View/Admin/Profile.php">Profile</a>
-         <a href="../../Controller/Logout.php" class="logoutbtn">Logout</a>
-
+    <h5>User Dashboard</h5>
+    <a href="UserDashboardController.php">Dashboard</a>
+    <a href="UserComplaintController.php">Complaint</a>
+    <a href="UserProfileController.php">Profile</a>
+   <a href="Logout.php" class="logoutbtn">Logout</a>
 </div>
 
 <div id="profileForm">
-    <h2 style="text-align:center;">Admin Profile</h2>
+    <h2 style="text-align:center;">User Profile</h2>
 
     <?php if($success): ?>
-        <p class="success"><?= $success ?></p>
+        <p class="success"><?= htmlspecialchars($success) ?></p>
     <?php endif; ?>
 
-    <form action="../../Controller/UpdateProfile.php" method="POST">
+    <?php if(isset($errors['general'])): ?>
+        <p class="error"><?= htmlspecialchars($errors['general']) ?></p>
+    <?php endif; ?>
+
+    <form action="UpdateUserProfileController.php" method="POST">
         <input type="hidden" name="id" value="<?= $user['id'] ?>">
 
         <input type="text" name="name" placeholder="Enter Name" value="<?= htmlspecialchars($user['name']) ?>" required>

@@ -57,10 +57,10 @@ th, td {
 <body>
 <div class="navbar">
     <h5>User Dashboard</h5>
-    <a href="#">Dashboard</a>
-    <a href="../Controller/UserComplaintController.php">Complaint</a>
-    <a href="../../View/User/UserProfile.php">Profile</a>
-   <a href="../../Controller/Logout.php" class="logoutbtn">Logout</a>
+    <a href="UserDashboardController.php">Dashboard</a>
+    <a href="UserComplaintController.php">Complaint</a>
+    <a href="UserProfileController.php">Profile</a>
+   <a href="Logout.php" class="logoutbtn">Logout</a>
 
 </div>
 
