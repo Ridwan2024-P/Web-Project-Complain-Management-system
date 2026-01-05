@@ -28,11 +28,17 @@ if ($result->num_rows > 0) {
     $user = $result->fetch_assoc();
 
     $_SESSION["isLoggedIn"] = true;
+    $_SESSION["user_id"] = $user["id"];
     $_SESSION["name"] = $user["name"];
     $_SESSION["email"] = $user["email"];
     $_SESSION["role"] = $user["role"];
 
-    header("Location: ../View/Admin/adminDashboard.php");
+    if($role == "admin"){
+        header("Location: ../View/Admin/adminDashboard.php");
+    } else {
+        header("Location: ../Controller/UserDashboardController.php");
+    }
+    exit;
 } else {
     $_SESSION["loginErr"] = "Email or Password incorrect";
     header("Location: ../View/login.php");

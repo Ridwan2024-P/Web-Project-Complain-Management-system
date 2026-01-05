@@ -42,4 +42,36 @@ function updateUser($conn, $id, $name, $email, $role) {
         $sql = "UPDATE complaints SET status='$status' WHERE id='$id'";
         return $conn->query($sql);
     }
+     function getUserByEmail($conn, $email) {
+        $sql = "SELECT * FROM users WHERE email=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
+
+    // Update user profile
+  public function updateProfile($conn, $id, $name, $email, $password = null) {
+
+    if (!empty($password)) {
+       
+        $sql = "UPDATE users SET name=?, email=?, password=? WHERE id=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sssi", $name, $email, $password, $id);
+
+    } else {
+        
+        $sql = "UPDATE users SET name=?, email=? WHERE id=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssi", $name, $email, $id);
+    }
+
+    return $stmt->execute();
+}
+
+
+
+    
+    
+    
 }
