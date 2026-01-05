@@ -26,5 +26,14 @@ class Complaint {
         return $stmt->execute();
     }
 
+    public function addComplaint($user_id, $title, $description, $status = "Pending") {
+        $stmt = $this->conn->prepare("INSERT INTO complaints (user_id, title, description, status) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("isss", $user_id, $title, $description, $status);
+        if ($stmt->execute()) {
+            return true;
+        }
+        return $stmt->error;
+    }
+
     
 }

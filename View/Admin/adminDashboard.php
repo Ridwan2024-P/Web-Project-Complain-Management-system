@@ -71,7 +71,7 @@ th, td {
     
    <div class="navbar">
     <h5>Admin Dashboard</h5>
-        <a href="../../Controller/UserDashboardController.php">Dashboard</a>
+        <a href="../../View/Admin/adminDashboard.php">Dashboard</a>
         <a href="../../View/Admin/AssignComplaints.php">Assign Complaints</a>
         <a href="../../View/Admin/Profile.php">Profile</a>
        
