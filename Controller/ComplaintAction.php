@@ -23,5 +23,5 @@ if ($id && $action) {
     }
 }
 
-header("Location: ../View/Admin/adminDashboard.php");
+header("Location: ../View/Admin/AssignComplaints.php");
 exit;
