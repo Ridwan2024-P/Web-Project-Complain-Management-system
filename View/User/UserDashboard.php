@@ -84,7 +84,7 @@ th, td {
                     <td><?= htmlspecialchars($row['description']) ?></td>
                     <td><?= $row['status'] ?></td>
                     <td>
-                        <form method="POST" action="../../Controller/UserComplaintAction.php">
+                        <form method="POST" action="UserComplaintActionController.php">
                             <input type="hidden" name="id" value="<?= $row['id'] ?>">
                             <button type="submit" name="action" value="Edit" class="btn">Edit</button>
                             <button type="submit" name="action" value="Delete" class="btn">Delete</button>

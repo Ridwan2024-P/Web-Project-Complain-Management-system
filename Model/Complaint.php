@@ -9,31 +9,35 @@ class Complaint {
         $this->conn = $db->openConnection();
     }
 
-    
     public function getComplaintsByUser($user_id) {
-        $sql = "SELECT * FROM complaints WHERE user_id = ?";
-        $stmt = $this->conn->prepare($sql);
+        $stmt = $this->conn->prepare("SELECT * FROM complaints WHERE user_id = ?");
         $stmt->bind_param("i", $user_id);
         $stmt->execute();
         return $stmt->get_result();
     }
 
-    
-    public function deleteComplaint($id) {
-        $sql = "DELETE FROM complaints WHERE id = ?";
-        $stmt = $this->conn->prepare($sql);
+    public function getComplaintById($id) {
+        $stmt = $this->conn->prepare("SELECT * FROM complaints WHERE id = ?");
         $stmt->bind_param("i", $id);
-        return $stmt->execute();
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
     }
 
     public function addComplaint($user_id, $title, $description, $status = "Pending") {
         $stmt = $this->conn->prepare("INSERT INTO complaints (user_id, title, description, status) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("isss", $user_id, $title, $description, $status);
-        if ($stmt->execute()) {
-            return true;
-        }
-        return $stmt->error;
+        return $stmt->execute();
     }
 
-    
+    public function updateComplaint($id, $title, $description) {
+        $stmt = $this->conn->prepare("UPDATE complaints SET title=?, description=? WHERE id=?");
+        $stmt->bind_param("ssi", $title, $description, $id);
+        return $stmt->execute();
+    }
+
+    public function deleteComplaint($id) {
+        $stmt = $this->conn->prepare("DELETE FROM complaints WHERE id=?");
+        $stmt->bind_param("i", $id);
+        return $stmt->execute();
+    }
 }
